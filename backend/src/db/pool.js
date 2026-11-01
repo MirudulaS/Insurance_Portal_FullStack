@@ -1,3 +1,4 @@
+const fs = require('node:fs');
 const mysql = require('mysql2/promise');
 const env = require('../config/env');
 
@@ -11,7 +12,9 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   dateStrings: true,
-  ssl: {},
+  ssl: {
+    ca: fs.readFileSync('/etc/secrets/ca.pem'),
+  },
 });
 
 module.exports = pool;
